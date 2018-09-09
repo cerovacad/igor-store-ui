@@ -1,5 +1,5 @@
 import { handleActions } from "redux-actions";
-import { setProducts } from "../actions/productActions";
+import { setProducts } from "../actions/productsActions";
 
 const defaultState = [];
 export default handleActions(

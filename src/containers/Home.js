@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import ProductGrid from "../components/ProductGrid";
 import { connect } from "react-redux";
-import { fetchProducts } from "../actions/productActions";
+import { fetchProducts } from "../actions/productsActions";
+import ProductsGrid from "../components/ProductGrid";
 
 class Home extends Component {
   state = {};
@@ -11,7 +11,7 @@ class Home extends Component {
   }
 
   render() {
-    return <ProductGrid />;
+    return <ProductsGrid />;
   }
 }
 
