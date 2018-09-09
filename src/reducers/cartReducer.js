@@ -1,16 +1,16 @@
 import { handleActions } from "redux-actions";
 import {
-  addToFavorites,
-  removeFromFavorites
-} from "../actions/favoritesActions";
+  addToCart,
+  removeFromCart
+} from "../actions/cartActions";
 
 const defaultState = [];
 export default handleActions(
   {
-    [addToFavorites]: (state, { payload }) => {
+    [addToCart]: (state, { payload }) => {
       return [...state, payload];
     },
-    [removeFromFavorites]: (state, { payload }) => {
+    [removeFromCart]: (state, { payload }) => {
       return state.filter((id) => {
         return id !== payload
       })
