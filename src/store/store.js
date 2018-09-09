@@ -4,10 +4,11 @@ import thunk from "redux-thunk";
 
 import productsReducer from "../reducers/productReducers";
 import favoritesReducer from "../reducers/favoritesReducer";
+import cartReducer from "../reducers/cartReducer";
 
 const rootReducer = combineReducers({
   products: productsReducer,
-  favorites: favoritesReducer
+  favorites: favoritesReducer,
+  cart: cartReducer
 });
-// export default createStore(rootReducer, applyMiddleware(thunk));
-export default createStore(rootReducer, applyMiddleware(logger, thunk));
+export default createStore(rootReducer, applyMiddleware(thunk, logger));

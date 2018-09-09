@@ -16,6 +16,7 @@ import {
   addToFavorites,
   removeFromFavorites
 } from "../actions/favoritesActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 const styles = {
   card: {
@@ -29,15 +30,30 @@ const styles = {
 
 class ImgMediaCard extends React.Component {
   state = {
-    isFavorite: false
+    isFavorite: false,
+    isAddedToCart: false
   };
 
   componentDidMount() {
-    const n = this.props.favorites.includes(this.props._id);
-    if (n) {
+    const isNotFavorite = this.props.favorites.includes(this.props._id);
+    if (isNotFavorite) {
       this.setState({ isFavorite: true });
     }
+    const isNotAddedToCart = this.props.cart.includes(this.props._id);
+    if (isNotAddedToCart) {
+      this.setState({ isAddedToCart: true });
+    }
   }
+
+  handleCart = () => {
+    if (this.state.isAddedToCart) {
+      this.props.removeFromCart(this.props._id);
+      this.setState({ isAddedToCart: !this.state.isAddedToCart });
+    } else {
+      this.props.addToCart(this.props._id);
+      this.setState({ isAddedToCart: !this.state.isAddedToCart });
+    }
+  };
 
   handleFavorite = () => {
     if (this.state.isFavorite) {
@@ -51,7 +67,7 @@ class ImgMediaCard extends React.Component {
 
   render() {
     const { classes, images, name, price } = this.props;
-    const { isFavorite } = this.state;
+    const { isFavorite, isAddedToCart } = this.state;
     return (
       <Card square={true} elevation={0} className={classes.card}>
         <CardActionArea>
@@ -72,11 +88,19 @@ class ImgMediaCard extends React.Component {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button>
-            <AddShoppingCartIcon />
+          <Button onClick={this.handleCart}>
+            {isAddedToCart ? (
+              <AddShoppingCartIcon color="secondary" />
+            ) : (
+              <AddShoppingCartIcon />
+            )}
           </Button>
           <Button onClick={this.handleFavorite}>
-            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {isFavorite ? (
+              <FavoriteIcon color="secondary" />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
           </Button>
         </CardActions>
       </Card>
@@ -90,11 +114,12 @@ ImgMediaCard.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    favorites: state.favorites
+    favorites: state.favorites,
+    cart: state.cart,
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addToFavorites, removeFromFavorites }
+  { addToFavorites, removeFromFavorites, addToCart, removeFromCart }
 )(withStyles(styles)(ImgMediaCard));
